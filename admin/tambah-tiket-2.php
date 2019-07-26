@@ -9,11 +9,11 @@ if (isset($_SESSION["tanggal"])) {
     $_SESSION["rute"] = "";
     $_SESSION["jumtiket"] = "";
 }
-$_SESSION["tanggal"] = $_POST["tanggal"];
-$_SESSION["rute"] = $_POST["asal"] . " - " . $_POST["tujuan"];
+echo $_SESSION["tanggal"] = $_POST["tanggal"];
+echo $_SESSION["rute"] = $_POST["asal"] . " - " . $_POST["tujuan"];
 $_SESSION["jumtiket"] = $_POST["jumtiket"];
 
-$datajam = getListJam($_SESSION["tanggal"], $_SESSION["jumtiket"], $_SESSION["rute"]);
+$datajam = getListJam($_SESSION["tanggal"],$_SESSION["jumtiket"],$_SESSION["rute"]);
 ?>
 <!DOCTYPE html>
 <html>
@@ -61,23 +61,21 @@ $datajam = getListJam($_SESSION["tanggal"], $_SESSION["jumtiket"], $_SESSION["ru
                             <div class="col">
                                 <?php
                                 if ($_SESSION['jumtiket'] > 1) {
-                                    for ($i = 1; $i <= $_SESSION['jumtiket']; $i++) {
-                                        ?>
-                                        <div class="field"><select class="form-control" name="kursi<?php echo $i; ?>"
-                                                                   id="kursi<?php echo $i; ?>">
-
-                                                <label class="mb-0" for="float-input">Pilih Nomor Kursi
-                                                    Ke <?php echo $i; ?></label></select>
-                                        </div>
-                                        <?php
-                                    }
+                                    ?>
+                                    <h3 class="text-dark mb-0" style="font-size: 13px;width: 200px;">Pilih Nomor Kursi Ke 1</h3>
+                                    <div class="field" style="margin-top: 20px;"><select class="form-control" name="kursi1" id="kursi1">
+                                        </select>
+                                    </div>
+                                    <h3 class="text-dark mb-0" style="font-size: 13px;width: 200px;">Pilih Nomor Kursi Ke 2</h3>
+                                    <div class="field" style="margin-top: 20px;"><select class="form-control" name="kursi2" id="kursi2">
+                                        </select>
+                                    </div>
+                                    <?php
                                 } else {
                                     ?>
-                                    <div class="field"><select class="form-control" name="kursi1"
-                                                               id="kursi1">
-
-                                            <label
-                                                    class="mb-0" for="float-input">Pilih Nomor Kursi</label></select>
+                                    <h3 class="text-dark mb-0" style="font-size: 13px;width: 200px;">Pilih Nomor Kursi</h3>
+                                    <div class="field" style="margin-top: 20px;"><select class="form-control" name="kursi" id="kursi">
+                                            </select>
                                     </div>
                                     <?php
                                 }
@@ -156,6 +154,7 @@ $datajam = getListJam($_SESSION["tanggal"], $_SESSION["jumtiket"], $_SESSION["ru
     $(function () {
         $("#jam").change(function () {
             var jam = $("#jam option:selected").val();
+            alert(jam);
             $.ajax({
                 url: "request/sessionJam.php",
                 type: "GET",
@@ -163,9 +162,9 @@ $datajam = getListJam($_SESSION["tanggal"], $_SESSION["jumtiket"], $_SESSION["ru
                 success: function (result) {
                     var resp = JSON.parse(result);
                     //alert(result);
-                    var cb = $("#kursi1");
+                    var cb = $("#kursi");
                     cb.empty();
-                    cb.append($('<option></option>').val(0).text("Pilih Nomor Kursi Anda"));
+                    cb.append($('<option></option>').val(0).text("Pilih Kota Tujuan"));
                     if (resp.status == "OK") {
                         for (var i = 0; i < resp.data.length; i++)
                             cb.append($('<option></option>').val(resp.data[i].x).text(resp.data[i].x));
