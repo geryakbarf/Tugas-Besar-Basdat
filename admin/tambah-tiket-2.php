@@ -74,7 +74,7 @@ $datajam = getListJam($_SESSION["tanggal"],$_SESSION["jumtiket"],$_SESSION["rute
                                 } else {
                                     ?>
                                     <h3 class="text-dark mb-0" style="font-size: 13px;width: 200px;">Pilih Nomor Kursi</h3>
-                                    <div class="field" style="margin-top: 20px;"><select class="form-control" name="kursi" id="kursi">
+                                    <div class="field" style="margin-top: 20px;"><select class="form-control" name="kursi1" id="kursi1">
                                             </select>
                                     </div>
                                     <?php
@@ -154,17 +154,60 @@ $datajam = getListJam($_SESSION["tanggal"],$_SESSION["jumtiket"],$_SESSION["rute
     $(function () {
         $("#jam").change(function () {
             var jam = $("#jam option:selected").val();
-            alert(jam);
+            if(jam==0){
+                alert("Silahkan Pilih Jam!");
+                var cb = $("#kursi1");
+                cb.empty();
+                var cb1 = $("#kursi2");
+                cb1.empty();
+                return false;
+            }
             $.ajax({
                 url: "request/sessionJam.php",
                 type: "GET",
                 data: {jam: jam},
                 success: function (result) {
                     var resp = JSON.parse(result);
-                    //alert(result);
-                    var cb = $("#kursi");
+                    var cb = $("#kursi1");
                     cb.empty();
-                    cb.append($('<option></option>').val(0).text("Pilih Kota Tujuan"));
+                    cb.append($('<option></option>').val(0).text("Pilih Tempat Duduk Anda"));
+                    if (resp.status == "OK") {
+                        for (var i = 0; i < resp.data.length; i++)
+                            cb.append($('<option></option>').val(resp.data[i].x).text(resp.data[i].x));
+                    }
+                }
+            });
+        });
+    });
+</script>
+<script type='text/javascript'>
+    $(function () {
+        $("#kursi1").change(function () {
+            var jam = $("#jam option:selected").val();
+            var kursi = $("#kursi1 option:selected").val();
+            if(jam==0){
+                alert("Silahkan Pilih Jam!");
+                var cb = $("#kursi1");
+                cb.empty();
+                var cb1 = $("#kursi2");
+                cb1.empty();
+                return false;
+            }
+            if(kursi==0){
+                alert("Silahkan Pilih Kursi Pertama!");
+                var cb1 = $("#kursi2");
+                cb1.empty();
+                return false;
+            }
+            $.ajax({
+                url: "request/sessionKursi.php",
+                type: "GET",
+                data: {jam: jam,kursi:kursi},
+                success: function (result) {
+                    var resp = JSON.parse(result);
+                    var cb = $("#kursi2");
+                    cb.empty();
+                    cb.append($('<option></option>').val(0).text("Pilih Tempat Duduk Anda"));
                     if (resp.status == "OK") {
                         for (var i = 0; i < resp.data.length; i++)
                             cb.append($('<option></option>').val(resp.data[i].x).text(resp.data[i].x));
