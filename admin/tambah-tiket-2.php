@@ -40,6 +40,7 @@ $datajam = getListJam($_SESSION["tanggal"],$_SESSION["jumtiket"],$_SESSION["rute
                 <div class="card clean-testimonial-item border-0 rounded-0"
                      style="margin-left: 50px;margin-right: 50px;margin-top: 20px;">
                     <div class="card-body">
+                        <form name="f" method="post" action="tambah-tiket-3.php">
                         <div class="row" style="margin-top: 20px;">
                             <div class="col">
                                 <div class="field"><select class="form-control" name="jam" id="jam">
@@ -85,17 +86,17 @@ $datajam = getListJam($_SESSION["tanggal"],$_SESSION["jumtiket"],$_SESSION["rute
                                 <div id="tipe"
                                      style="background-image: url(assets/img/mini_bus_8.png);height: 530px;background-size: contain;background-repeat: no-repeat;min-width: 392.797px;max-width: 392.797px;min-height: 550px;max-height: 550px;">
                                     <button class="btn btn-primary" type="button"
-                                            style="width: 45px;height: 45px;background-color: rgb(223,78,78);margin-top: 180px;margin-left: 60px;">
+                                            style="width: 45px;height: 45px;background-color: rgb(78,223,92);margin-top: 180px;margin-left: 60px;" name="btn1" id="btn1">
                                         1
                                     </button>
                                     <div class="row" style="margin-top: 30px;margin-right: 170px;margin-left: 50px;">
                                         <div class="col">
                                             <button class="btn btn-primary" type="button"
-                                                    style="width: 45px;height: 45px;background-color: rgb(223,78,78);margin-top: 20px;margin-left: 43px;">
+                                                    style="width: 45px;height: 45px;background-color: rgb(78,223,92);margin-top: 20px;margin-left: 43px;" name="btn2" id="btn2">
                                                 2
                                             </button>
                                             <button class="btn btn-primary" type="button"
-                                                    style="width: 45px;height: 45px;background-color: rgb(78,223,92);margin-top: 20px;margin-left: 7px;margin-right: 0px;">
+                                                    style="width: 45px;height: 45px;background-color: rgb(78,223,92);margin-top: 20px;margin-left: 7px;margin-right: 0px;" name="btn3" id="btn3">
                                                 3
                                             </button>
                                         </div>
@@ -103,11 +104,11 @@ $datajam = getListJam($_SESSION["tanggal"],$_SESSION["jumtiket"],$_SESSION["rute
                                     <div class="row" style="margin-top: 24px;margin-right: 10px;margin-left: 50px;">
                                         <div class="col">
                                             <button class="btn btn-primary" type="button"
-                                                    style="width: 45px;height: 45px;background-color: rgb(78,223,92);margin-top: 20px;margin-left: 0px;">
+                                                    style="width: 45px;height: 45px;background-color: rgb(78,223,92);margin-top: 20px;margin-left: 0px;" name="btn4" id="btn4">
                                                 4
                                             </button>
                                             <button class="btn btn-primary" type="button"
-                                                    style="width: 45px;height: 45px;background-color: rgb(78,223,92);margin-top: 20px;margin-left: 50px;margin-right: 0px;">
+                                                    style="width: 45px;height: 45px;background-color: rgb(78,223,92);margin-top: 20px;margin-left: 50px;margin-right: 0px;" name="btn5" id="btn5">
                                                 5
                                             </button>
                                         </div>
@@ -115,16 +116,16 @@ $datajam = getListJam($_SESSION["tanggal"],$_SESSION["jumtiket"],$_SESSION["rute
                                     <div class="row" style="margin-top: 10px;margin-right: 170px;margin-left: 50px;">
                                         <div class="col" style="width: 170px;">
                                             <button class="btn btn-primary" type="button"
-                                                    style="width: 45px;height: 45px;background-color: rgb(78,223,92);margin-top: 20px;margin-left: 0px;">
+                                                    style="width: 45px;height: 45px;background-color: rgb(78,223,92);margin-top: 20px;margin-left: 0px;" name="btn6" id="btn6">
                                                 6
                                             </button>
                                             <button class="btn btn-primary" type="button"
-                                                    style="width: 45px;height: 45px;background-color: rgb(223,78,78);margin-top: 20px;margin-left: 1px;">
+                                                    style="width: 45px;height: 45px;background-color: rgb(78,223,92);margin-top: 20px;margin-left: 1px;" name="btn7" id="btn7">
                                                 7
                                             </button>
                                             <button
                                                     class="btn btn-primary" type="button"
-                                                    style="width: 45px;height: 45px;background-color: rgb(223,78,78);margin-top: 20px;margin-left: 0px;margin-right: 0px;">
+                                                    style="width: 45px;height: 45px;background-color: rgb(78,223,92);margin-top: 20px;margin-left: 0px;margin-right: 0px;" name="btn8" id="btn8">
                                                 8
                                             </button>
                                         </div>
@@ -132,7 +133,7 @@ $datajam = getListJam($_SESSION["tanggal"],$_SESSION["jumtiket"],$_SESSION["rute
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <button class="btn btn-primary" type="button"
+                                        <button class="btn btn-primary" type="submit"
                                                 style="float: right;margin-top: 20px;margin-right: 20px;margin-bottom: 35px;">
                                             Lanjut
                                         </button>
@@ -140,7 +141,9 @@ $datajam = getListJam($_SESSION["tanggal"],$_SESSION["jumtiket"],$_SESSION["rute
                                 </div>
                             </div>
                         </div>
+                        </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -160,8 +163,31 @@ $datajam = getListJam($_SESSION["tanggal"],$_SESSION["jumtiket"],$_SESSION["rute
                 cb.empty();
                 var cb1 = $("#kursi2");
                 cb1.empty();
+                for (var i = 1; i <= 8; i++) {
+                    $("#btn"+i).css("backgroundColor","rgb(78,223,92)");
+                }
                 return false;
             }
+
+            for (var i = 1; i <= 8; i++) {
+                $("#btn"+i).css("backgroundColor","rgb(78,223,92)");
+            }
+
+            $.ajax({
+                url: "request/getKursiTerpakai.php",
+                type: "GET",
+                data: {jam: jam},
+                success: function (result) {
+                    var resp = JSON.parse(result);
+                    if (resp.status == "OK") {
+                        for (var i = 0; i < resp.data.length; i++)
+                            $("#btn"+resp.data[i].x).css("backgroundColor","rgb(223,78,78)");
+                    }else if(resp.status == "ERROR") {
+                        //Nothing to do here
+                    }
+                }
+            });
+
             $.ajax({
                 url: "request/sessionJam.php",
                 type: "GET",
