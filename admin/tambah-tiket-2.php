@@ -169,10 +169,6 @@ $datajam = getListJam($_SESSION["tanggal"],$_SESSION["jumtiket"],$_SESSION["rute
                 return false;
             }
 
-            for (var i = 1; i <= 8; i++) {
-                $("#btn"+i).css("backgroundColor","rgb(78,223,92)");
-            }
-
             $.ajax({
                 url: "request/getKursiTerpakai.php",
                 type: "GET",
@@ -182,8 +178,6 @@ $datajam = getListJam($_SESSION["tanggal"],$_SESSION["jumtiket"],$_SESSION["rute
                     if (resp.status == "OK") {
                         for (var i = 0; i < resp.data.length; i++)
                             $("#btn"+resp.data[i].x).css("backgroundColor","rgb(223,78,78)");
-                    }else if(resp.status == "ERROR") {
-                        //Nothing to do here
                     }
                 }
             });

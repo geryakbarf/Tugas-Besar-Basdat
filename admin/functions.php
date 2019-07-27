@@ -224,20 +224,5 @@ function getAsal(){
         return FALSE;
 }
 
-function getListKursi($tanggal,$jam,$rute){
-    $db = dbConnect();
-    if ($db->connect_errno == 0) {
-        $res = $db->query("SELECT * from (select 1 x union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8) as nomor WHERE NOT EXISTS(SELECT detail_jadwal.no_kursi FROM detail_jadwal JOIN jadwal ON detail_jadwal.kode_jadwal=jadwal.kode_jadwal WHERE tanggal_berangkat='$tanggal' AND jam_berangkat='$jam' AND rute='$rute')");
-        if ($res) {
-            $data = $res->fetch_all(MYSQLI_ASSOC);
-            $res->free();
-            return $data;
-        } else
-            return FALSE;
-    } else
-        return FALSE;
-}
-
-
 
 ?>

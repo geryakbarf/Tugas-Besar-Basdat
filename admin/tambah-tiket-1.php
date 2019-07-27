@@ -135,7 +135,7 @@ if (!isset($_SESSION["travelku.xyz"]))
                         var min=resp.min;
                         $('#datepicker').datepicker({
                             dateFormat: "yy-mm-dd",
-                            minDate: new Date(min),
+                            minDate: new Date(),
                             maxDate: new Date(max)
                         });
                     }else{

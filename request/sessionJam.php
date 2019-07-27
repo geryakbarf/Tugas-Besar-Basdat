@@ -15,9 +15,9 @@ else{
             or x<>(SELECT detail_jadwal.no_kursi FROM detail_jadwal JOIN jadwal ON detail_jadwal.kode_jadwal=jadwal.kode_jadwal WHERE tanggal_berangkat='$tanggal' AND jam_berangkat='$jam' AND rute='$rute')";
     $res=$db->query($sql);
     if(mysqli_num_rows($res)>0){
-        $data=$res->fetch_all(MYSQLI_ASSOC);
-        $respon["status"]="OK";
-        $respon["data"]=$data;
+    $data=$res->fetch_all(MYSQLI_ASSOC);
+    $respon["status"]="OK";
+    $respon["data"]=$data;
     }else
         $respon["status"]="ERROR";
 }
