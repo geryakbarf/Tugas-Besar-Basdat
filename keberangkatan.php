@@ -6,8 +6,8 @@ if (isset($_SESSION["tanggal"])) {
     $_SESSION["rute"] = "";
     $_SESSION["jumtiket"] = "";
 }
-echo $_SESSION["tanggal"] = $_POST["tanggal"];
-echo $_SESSION["rute"] = $_POST["asal"] . " - " . $_POST["tujuan"];
+$_SESSION["tanggal"] = $_POST["tanggal"];
+$_SESSION["rute"] = $_POST["asal"] . " - " . $_POST["tujuan"];
 $_SESSION["jumtiket"] = $_POST["jumtiket"];
 
 $datajam = getListJam($_SESSION["tanggal"], $_SESSION["jumtiket"], $_SESSION["rute"]);
@@ -53,7 +53,7 @@ $datajam = getListJam($_SESSION["tanggal"], $_SESSION["jumtiket"], $_SESSION["ru
         <div class="card clean-testimonial-item border-0 rounded-0"
              style="margin-left: 50px;margin-right: 50px;margin-top: 20px;">
             <div class="card-body">
-                <form name="f" method="post" action="tambah-tiket-3.php">
+                <form name="f" method="post" action="pembayaran.php">
                     <div class="row" style="margin-top: 20px;">
                         <div class="col">
                             <div class="field"><select class="form-control" name="jam" id="jam">
@@ -181,7 +181,6 @@ $datajam = getListJam($_SESSION["tanggal"], $_SESSION["jumtiket"], $_SESSION["ru
         $("#jam").change(function () {
             var jam = $("#jam option:selected").val();
             if (jam == 0) {
-                alert("Silahkan Pilih Jam!");
                 var cb = $("#kursi1");
                 cb.empty();
                 var cb1 = $("#kursi2");
@@ -230,20 +229,13 @@ $datajam = getListJam($_SESSION["tanggal"], $_SESSION["jumtiket"], $_SESSION["ru
         $("#kursi1").change(function () {
             var jam = $("#jam option:selected").val();
             var kursi = $("#kursi1 option:selected").val();
-            if (jam == 0) {
-                alert("Silahkan Pilih Jam!");
-                var cb = $("#kursi1");
-                cb.empty();
-                var cb1 = $("#kursi2");
-                cb1.empty();
-                return false;
-            }
+
             if (kursi == 0) {
-                alert("Silahkan Pilih Kursi Pertama!");
                 var cb1 = $("#kursi2");
                 cb1.empty();
                 return false;
             }
+
             $.ajax({
                 url: "request/sessionKursi.php",
                 type: "GET",

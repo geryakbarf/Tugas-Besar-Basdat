@@ -176,7 +176,7 @@ function getListJam($tanggal,$jumtiket,$rute){
 function getKeberangkatan(){
     $db = dbConnect();
     if ($db->connect_errno == 0) {
-        $res = $db->query("SELECT COUNT(kode_jadwal) as 'jumlah' FROM jadwal WHERE status='Belum Selesai'");
+        $res = $db->query("SELECT COUNT(kode_jadwal) as 'jumlah' FROM jadwal WHERE tanggal_berangkat=CURDATE()");
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
             $res->free();
@@ -190,7 +190,7 @@ function getKeberangkatan(){
 function getJumlahArmada(){
     $db = dbConnect();
     if ($db->connect_errno == 0) {
-        $res = $db->query("SELECT COUNT(plat_nomor) as 'jumlah' FROM armada");
+        $res = $db->query("SELECT COUNT(plat_nomor) as 'jumlah' FROM armada JOIN jadwal ON armada.plat_nomor=jadwal.armada WHERE tanggal_berangkat=CURDATE()");
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
             $res->free();
@@ -224,5 +224,83 @@ function getAsal(){
         return FALSE;
 }
 
+function sendEmailPembayaran($kodetiket,$email,$rute,$jumlahtiket,$tanggal,$jam,$kursi,$armada){
+    require 'PHPMailer/PHPMailerAutoload.php';
+    $mail = new PHPMailer;
+
+// Konfigurasi SMTP
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'dianholidaytravel@gmail.com';
+    $mail->Password = '089613635834';
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587;
+
+    $mail->setFrom('dianholidaytravel@gmail.com', 'Dian Holiday');
+    $mail->addReplyTo('dianholidaytravel@gmail.com', 'Dian Holiday');
+
+// Menambahkan penerima
+    $mail->addAddress($email);
+
+// Menambahkan beberapa penerima
+//$mail->addAddress('penerima2@contoh.com');
+//$mail->addAddress('penerima3@contoh.com');
+
+// Subjek email
+    $mail->Subject = 'E-Ticket Travel Dian Holiday';
+
+// Mengatur format email ke HTML
+    $mail->isHTML(true);
+
+// Konten/isi email
+    $mailContent = "<h1>Pelanggan Yang Terhormat...</h1>
+    <p>Pembayaran berhasil dilakukan, anda mendapatkan e-ticket untuk pemberangkatan : </p>
+    <p>Tanggal Berangkat : ".$tanggal." Pukul ".$jam."</p>
+    <p>Rute Travel : ".$rute."</p>
+    <p>Kode Tiket : ".$kodetiket."</p>
+    <p>Jumlah Tiket : ".$jumlahtiket." Tiket</p>
+    <p>No Kursi : ".$kursi."</p>
+    <p>Armada Travel : ".$armada."</p>
+    <p>Simpan baik - baik e-ticket ini sebagai bukti pembayaran. Dimohon untuk datang tepat waktu :)<br><br>";
+    $mail->Body = $mailContent;
+
+
+// Kirim email
+    if(!$mail->send()){
+        echo 'Pesan tidak dapat dikirim.';
+        echo 'Mailer Error: ' . $mail->ErrorInfo;
+        return FALSE;
+    }else{
+        echo 'Pesan telah terkirim';
+        RETURN TRUE;
+    }
+}
+
+function getUnik()
+{
+    $randomString = rand(0,999);
+
+
+
+    return $randomString;
+}
+
+function getHagraTiket($rute,$jam,$tanggal,$jumtiket){
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT biaya*'$jumtiket' as harga FROM rute JOIN jadwal ON rute.rute=jadwal.rute WHERE jadwal.tanggal_berangkat='$tanggal' AND jadwal.jam_berangkat='$jam' AND jadwal.rute='$rute' ");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            foreach ($data as $new){
+                $harga=$new['harga'];
+            }
+            return $harga;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
 
 ?>

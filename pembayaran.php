@@ -1,3 +1,17 @@
+<?php include_once"functions.php";?>
+<?php
+    session_start();
+    $_SESSION['kursi1']=$_POST['kursi1'];
+    $_SESSION['jam']=$_POST['jam'];
+    if(isset($_POST['kursi2'])){
+        $_SESSION['kursi2']=$_POST['kursi2'];
+    }
+    $rute=$_SESSION['rute'];
+    $tanggal=$_SESSION['tanggal'];
+    $jumtiket=$_SESSION['jumtiket'];
+    $kodetiket=getName(5);
+    $harga=getHagraTiket($rute, $_SESSION['jam'],$tanggal,$jumtiket)+getUnik();
+?>
 <!DOCTYPE html>
 <html>
 
@@ -35,19 +49,21 @@
                     <h2 class="text-info">Pemesanan Tiket</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
                 </div>
-                <form>
+                <form name="f" method="post" action="proses/proses-tambah-tiket.php">
                     <div class="card-details">
                         <h3 class="title">Isi Data Diri</h3>
-                        <div class="form-group"><label for="card-holder">Nama lengkap</label><input class="form-control" type="text" placeholder="Nama Lengkap Anda"></div>
-                        <div class="form-group"><label for="card-holder">Alamat Email</label><input class="form-control" type="text" placeholder="Alamat Email Aktif Anda"></div>
-                        <div class="form-group"><label for="card-holder">Nomor rekening</label><input class="form-control" type="text" placeholder="Nomor Rekening Bank Anda"></div>
-                        <div class="form-group"><label for="card-holder">Nomor Kontak</label><input class="form-control" type="text" placeholder="Nomor Kontak Anda"></div>
+                        <div class="form-group"><label for="card-holder">Nama lengkap</label><input class="form-control" type="text" placeholder="Nama Lengkap Anda" name="nama" maxlength="30" required></div>
+                        <div class="form-group"><label for="card-holder">Alamat Email</label><input class="form-control" type="text" placeholder="Alamat Email Aktif Anda" name="email" maxlength="30" required></div>
+                        <div class="form-group"><label for="card-holder">Nomor rekening</label><input class="form-control" type="text" placeholder="Nomor Rekening Bank Anda" name="norek" maxlength="11" required></div>
+                        <div class="form-group"><label for="card-holder">Nomor Kontak</label><input class="form-control" type="text" placeholder="Nomor Kontak Anda" name="nokontak" maxlength="15" required></div>
+                        <input type="hidden" name="kode" value="<?php echo $kodetiket;?>">
+                        <input type="hidden" name="harga" value="<?php echo $harga;?>">
                     </div>
                     <div class="products">
                         <h3 class="title">Checkout Tiket</h3>
-                        <div class="item"><span class="price">Rp. 115.000</span>
-                            <p class="item-name">Tiket Bandung - Jakarta</p>
-                            <p class="item-description">1 Tiket</p>
+                        <div class="item"><span class="price">Rp. <?php echo $harga;?></span>
+                            <p class="item-name">Tiket <?php echo $rute;?></p>
+                            <p class="item-description"><?php echo $jumtiket;?> Tiket</p>
                         </div>
                     </div><button class="btn btn-primary btn-block" type="submit">Pesan Tiket</button></form>
             </div>
