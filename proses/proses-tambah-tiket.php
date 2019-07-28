@@ -44,8 +44,13 @@ if($db->connect_errno==0){
                     $new_time = date("Y-m-d H:i:s", strtotime('+8 hours'));
                     $kirim=sendEmailPembayaran($email,$rute,$jumtiket,$tanggal,$jam,$harga,$new_time);
                     if($kirim){
+                        $_SESSION['rute']="";
+                        $_SESSION['tanggal']="";
+                        $_SESSION['kursi2']="";
+                        $_SESSION['kursi1']="";
+                        $_SESSION['jam']="";
+                        $_SESSION['jumtiket']="";
                         header("Location: ../index.html");
-                        session_destroy();
                     }else
                         echo "Terjadi Kesalahan";
                 }else

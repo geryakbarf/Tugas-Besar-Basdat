@@ -65,14 +65,14 @@ function sendEmailPembayaran($email,$rute,$jumlahtiket,$tanggal,$jam,$harga,$bat
 
 // Konten/isi email
     $mailContent = "<h1>Pelanggan Yang Terhormat...</h1>
-    <p>Harap Lakukan Pembayarn Untuk Tiket :</p>
+    <p>Harap Lakukan Pembayaran Untuk Tiket :</p>
     <p>Rute Travel : ".$rute."</p>
     <p>Tanggal Berangkat : ".$tanggal." Pukul ".$jam."</p>
     <p>Jumlah Tiket : ".$jumlahtiket." Tiket</p>
-    <p>Total Bayar : ".$harga."</p>
+    <p>Total Bayar : Rp.".$harga." (harap bayar sesuai harga yang tertera)</p>
     <p>Silahkan bayar sebelum tanggal ".$batas."<br><br> Pembayaran Dapat Dilakukan Melalui :<br>
     - Rekening BNI (057470881) Atas Nama Akbar De Bruyne<br><br>
-    - Rekening BCA ()10117049) Atas Nama Akbar Fauzi";
+    - Rekening BCA (10117049) Atas Nama Akbar Fauzi";
     $mail->Body = $mailContent;
 
 

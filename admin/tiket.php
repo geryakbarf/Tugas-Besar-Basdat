@@ -98,7 +98,7 @@ if (!isset($_SESSION["travelku.xyz"]))
                                                 <td><a href="edit-tiket.php?tiket=<?php echo $data['no_tiket'];?>">Edit</a> <?php
                                                         if($data['status']=="Belum Dibayar"){
                                                             ?>
-                                                                | <a href="proses/proses-hapus-tiket.php?tiket=<?php echo $data['no_tiket']; ?>">Hapus</a>
+                                                                | <a href="proses/proses-hapus-tiket.php?tiket=<?php echo $data['no_tiket']; ?>&jum=<?php echo $data['jumlah']; ?>">Hapus</a>
                                                             <?php
                                                         }
                                                     ?></td>

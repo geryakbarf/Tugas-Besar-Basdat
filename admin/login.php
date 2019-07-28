@@ -1,4 +1,9 @@
 <?php include_once "functions.php" ?>
+<?php
+session_start();
+if (isset($_SESSION["travelku.xyz"]))
+    header("Location: index.php");
+?>
 <!DOCTYPE html>
 <html>
 
