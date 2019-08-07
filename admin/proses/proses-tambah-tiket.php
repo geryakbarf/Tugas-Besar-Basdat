@@ -51,7 +51,7 @@ if($db->connect_errno==0){
                         $_SESSION['kursi1']="";
                         $_SESSION['jam']="";
                         $_SESSION['jumtiket']="";
-                        header("Location: ../tiket.php");
+                        header("Location: ../tiket.php?halaman=1");
                     }else
                         echo "Terjadi Kesalahan";
                 }else

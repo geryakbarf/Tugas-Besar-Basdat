@@ -3,6 +3,7 @@
 session_start();
 if (!isset($_SESSION["travelku.xyz"]))
     header("Location: login.php");
+$keyword=$_POST['keyword'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,19 +26,13 @@ if (!isset($_SESSION["travelku.xyz"]))
         <div id="content">
             <?php topBar(); ?>
             <div class="container-fluid">
-                <h3 class="text-dark mb-4">Data Tiket<a href="tambah-tiket-1.php">
-                        <button class="btn btn-primary" type="button" style="margin-bottom: 10px;float: right;">Tambah
-                            Data
-                        </button>
-                    </a></h3>
+
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="row">
                             <div class="col"></div>
                             <div class="col-md-6">
-                                <div class="text-md-right dataTables_filter" id="dataTable_filter"><label><form method="post" name="a" action="cari-tiket.php?halaman=1"><input
-                                                type="search" class="form-control form-control-sm"
-                                                aria-controls="dataTable" name="keyword" placeholder="Search" required></label><button class="btn btn-primary" type="submit">Cari</button></form> </div>
+
                             </div>
                         </div>
                         <div class="table-responsive table mt-2" id="dataTable" role="grid"
@@ -64,6 +59,7 @@ if (!isset($_SESSION["travelku.xyz"]))
 
                                 <?php
                                 $db = dbConnect();
+                                $db = dbConnect();
                                 $batas = 20;
                                 $halaman = $_GET['halaman'];
                                 if (empty($halaman)) {
@@ -74,7 +70,8 @@ if (!isset($_SESSION["travelku.xyz"]))
                                 }
                                 if ($db->connect_errno == 0) {
                                     $res = $db->query("SELECT DISTINCT tiket.no_tiket, jadwal.tanggal_berangkat, jadwal.jam_berangkat,jadwal.rute, tiket.nama_pemesan, tiket.email_pemesan, tiket.kontak, tiket.no_rekening,tiket.jumlah,tiket.total_biaya,tiket.batas_bayar,tiket.status,jadwal.armada 
-                                                                        FROM tiket JOIN detail_jadwal ON tiket.no_tiket=detail_jadwal.no_tiket JOIN jadwal ON detail_jadwal.kode_jadwal=jadwal.kode_jadwal ORDER BY jadwal.tanggal_berangkat DESC LIMIT $posisi,$batas ");
+                                                                        FROM tiket JOIN detail_jadwal ON tiket.no_tiket=detail_jadwal.no_tiket JOIN jadwal ON detail_jadwal.kode_jadwal=jadwal.kode_jadwal
+                                                                         WHERE tiket.no_tiket='$keyword' or jadwal.tanggal_berangkat='$keyword' or jadwal.rute like '%$keyword%' or tiket.nama_pemesan like '%$keyword%' or tiket.no_rekening='$keyword' or tiket.total_biaya='$keyword' or tiket.status like '$keyword' ORDER BY jadwal.tanggal_berangkat DESC LIMIT $posisi,$batas ");
                                     if ($res) {
                                         $jmldata = mysqli_num_rows($res);
                                         $jmlhalaman = ceil($jmldata / $batas);

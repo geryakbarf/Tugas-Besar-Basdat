@@ -35,9 +35,9 @@ if (!isset($_SESSION["travelku.xyz"]))
                         <div class="row">
                             <div class="col"></div>
                             <div class="col-md-6">
-                                <div class="text-md-right dataTables_filter" id="dataTable_filter"><label><input
-                                                type="search" class="form-control form-control-sm"
-                                                aria-controls="dataTable" placeholder="Search"></label></div>
+                                <div class="text-md-right dataTables_filter" id="dataTable_filter"><form name="a" method="post" action="cari-jadwal.php?halaman=1"> <label><input
+                                                type="search" name="keyword" class="form-control form-control-sm"
+                                                aria-controls="dataTable" placeholder="Search" required></label><button class="btn btn-primary" type="submit">Cari</button></form> </div>
                             </div>
                         </div>
                         <div class="table-responsive table mt-2" id="dataTable" role="grid"
@@ -83,7 +83,7 @@ if (!isset($_SESSION["travelku.xyz"]))
                                                 <td><?php echo $data['nama']; ?></td>
                                                 <td><?php echo $data['sisa_kursi']; ?></td>
                                                 <td><?php echo $data['status']; ?></td>
-                                                <td>Edit</td>
+                                                <td><a href="edit-jadwal.php?id=<?php echo $data['kode_jadwal']; ?>">Edit</a</td>
                                             </tr>
                                             <?php
                                         }

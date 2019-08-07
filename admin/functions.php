@@ -2,7 +2,8 @@
 
 define("DEVELOPMENT", TRUE);
 
-function dbConnect(){
+function dbConnect()
+{
     $db = new mysqli("localhost", "root", "", "db_travel");
     return $db;
 }
@@ -26,7 +27,7 @@ function sidebar()
                                 class="fas fa-ticket-alt"></i><span>Tiket</span></a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link active" href="armada.php?halaman=1"><i
                                 class="fas fa-bus-alt"></i><span>Armada</span></a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link active" href="index.html"><i
+                <li class="nav-item" role="presentation"><a class="nav-link active" href="pegawai.php"><i
                                 class="fas fa-user-tie"></i><span>Pegawai</span></a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link active" href="rute.php"><i
                                 class="fas fa-road"></i><span>Rute</span></a></li>
@@ -49,7 +50,7 @@ function getName($n)
         $randomString .= $characters[$index];
     }
 
-    return date("m-d")."-".$randomString;
+    return $randomString;
 }
 
 function topBar()
@@ -80,19 +81,11 @@ function topBar()
                 <li class="nav-item dropdown no-arrow" role="presentation">
                 <li class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown"
                                                           aria-expanded="false" href="#"><span
-                                class="d-none d-lg-inline mr-2 text-gray-600 small"><?php echo $_SESSION['nama'];?></span><img
+                                class="d-none d-lg-inline mr-2 text-gray-600 small"><?php echo $_SESSION['nama']; ?></span><img
                                 class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.png"></a>
                     <div
-                            class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu"><a
-                                class="dropdown-item" role="presentation" href="#"><i
-                                    class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a><a
-                                class="dropdown-item" role="presentation" href="#"><i
-                                    class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Settings</a>
-                        <a
-                                class="dropdown-item" role="presentation" href="#"><i
-                                    class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Activity log</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" role="presentation" href="#"><i
+                            class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu">
+                        <a class="dropdown-item" role="presentation" href="proses/proses-logout.php"><i
                                     class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
                     </div>
                 </li>
@@ -103,21 +96,38 @@ function topBar()
     <?php
 }
 
-function getListRute(){
-        $db = dbConnect();
-        if ($db->connect_errno == 0) {
-            $res = $db->query("SELECT * FROM rute ORDER BY rute");
-            if ($res) {
-                $data = $res->fetch_all(MYSQLI_ASSOC);
-                $res->free();
-                return $data;
-            } else
-                return FALSE;
+function getListRute()
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT * FROM rute ORDER BY rute");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
         } else
             return FALSE;
+    } else
+        return FALSE;
 }
 
-function editRute($id){
+function getListAdmin($nip)
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT * FROM admin WHERE nip='$nip'");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function editRute($id)
+{
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT SUBSTRING_INDEX( rute, ' ', 1 ) as 'asal', SUBSTRING_INDEX( rute, ' ', -1 ) as 'tujuan', biaya FROM rute WHERE rute='$id'");
@@ -131,7 +141,8 @@ function editRute($id){
         return FALSE;
 }
 
-function getListArmada(){
+function getListArmada()
+{
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT * FROM armada ORDER BY plat_nomor");
@@ -145,7 +156,8 @@ function getListArmada(){
         return FALSE;
 }
 
-function getListSupir(){
+function getListSupir()
+{
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT * FROM supir ORDER BY id_supir");
@@ -159,7 +171,8 @@ function getListSupir(){
         return FALSE;
 }
 
-function getListJam($tanggal,$jumtiket,$rute){
+function getListJam($tanggal, $jumtiket, $rute)
+{
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT jam_berangkat FROM jadwal WHERE sisa_kursi>='$jumtiket' AND tanggal_berangkat='$tanggal' AND rute='$rute'");
@@ -173,7 +186,8 @@ function getListJam($tanggal,$jumtiket,$rute){
         return FALSE;
 }
 
-function getKeberangkatan(){
+function getKeberangkatan()
+{
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT COUNT(kode_jadwal) as 'jumlah' FROM jadwal WHERE tanggal_berangkat=CURDATE()");
@@ -187,10 +201,41 @@ function getKeberangkatan(){
         return FALSE;
 }
 
-function getJumlahArmada(){
+function getJumlahArmada()
+{
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT COUNT(plat_nomor) as 'jumlah' FROM armada JOIN jadwal ON armada.plat_nomor=jadwal.armada WHERE tanggal_berangkat=CURDATE()");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getListTiketBelumBayar()
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT DISTINCT COUNT(tiket.no_tiket) as 'jumlah' FROM tiket JOIN detail_jadwal ON tiket.no_tiket=detail_jadwal.no_tiket JOIN jadwal ON jadwal.kode_jadwal=detail_jadwal.kode_jadwal WHERE tanggal_berangkat=CURDATE() AND tiket.status='Belum Dibayar'");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getListTiketUdahBayar()
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT DISTINCT COUNT(tiket.no_tiket) as 'jumlah' FROM tiket JOIN detail_jadwal ON tiket.no_tiket=detail_jadwal.no_tiket JOIN jadwal ON jadwal.kode_jadwal=detail_jadwal.kode_jadwal WHERE tanggal_berangkat=CURDATE() AND tiket.status='Dibayar'");
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
             $res->free();
@@ -210,7 +255,8 @@ function showError($message)
     <?php
 }
 
-function getAsal(){
+function getAsal()
+{
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT DISTINCT SUBSTRING_INDEX( rute, ' ', 1 ) as 'asal' FROM rute");
@@ -224,7 +270,8 @@ function getAsal(){
         return FALSE;
 }
 
-function sendEmailPembayaran($kodetiket,$email,$rute,$jumlahtiket,$tanggal,$jam,$kursi,$armada){
+function sendEmailPembayaran($kodetiket, $email, $rute, $jumlahtiket, $tanggal, $jam, $kursi, $armada)
+{
     require 'PHPMailer/PHPMailerAutoload.php';
     $mail = new PHPMailer;
 
@@ -256,22 +303,22 @@ function sendEmailPembayaran($kodetiket,$email,$rute,$jumlahtiket,$tanggal,$jam,
 // Konten/isi email
     $mailContent = "<h1>Pelanggan Yang Terhormat...</h1>
     <p>Pembayaran berhasil dilakukan, anda mendapatkan e-ticket untuk pemberangkatan : </p>
-    <p>Tanggal Berangkat : ".$tanggal." Pukul ".$jam."</p>
-    <p>Rute Travel : ".$rute."</p>
-    <p>Kode Tiket : ".$kodetiket."</p>
-    <p>Jumlah Tiket : ".$jumlahtiket." Tiket</p>
-    <p>No Kursi : ".$kursi."</p>
-    <p>Armada Travel : ".$armada."</p>
+    <p>Tanggal Berangkat : " . $tanggal . " Pukul " . $jam . "</p>
+    <p>Rute Travel : " . $rute . "</p>
+    <p>Kode Tiket : " . $kodetiket . "</p>
+    <p>Jumlah Tiket : " . $jumlahtiket . " Tiket</p>
+    <p>No Kursi : " . $kursi . "</p>
+    <p>Armada Travel : " . $armada . "</p>
     <p>Simpan baik - baik e-ticket ini sebagai bukti pembayaran. Dimohon untuk datang tepat waktu :)<br><br>";
     $mail->Body = $mailContent;
 
 
 // Kirim email
-    if(!$mail->send()){
+    if (!$mail->send()) {
         echo 'Pesan tidak dapat dikirim.';
         echo 'Mailer Error: ' . $mail->ErrorInfo;
         return FALSE;
-    }else{
+    } else {
         echo 'Pesan telah terkirim';
         RETURN TRUE;
     }
@@ -279,24 +326,54 @@ function sendEmailPembayaran($kodetiket,$email,$rute,$jumlahtiket,$tanggal,$jam,
 
 function getUnik()
 {
-    $randomString = rand(0,999);
-
+    $randomString = rand(0, 999);
 
 
     return $randomString;
 }
 
-function getHagraTiket($rute,$jam,$tanggal,$jumtiket){
+function getHagraTiket($rute, $jam, $tanggal, $jumtiket)
+{
     $db = dbConnect();
     if ($db->connect_errno == 0) {
         $res = $db->query("SELECT biaya*'$jumtiket' as harga FROM rute JOIN jadwal ON rute.rute=jadwal.rute WHERE jadwal.tanggal_berangkat='$tanggal' AND jadwal.jam_berangkat='$jam' AND jadwal.rute='$rute' ");
         if ($res) {
             $data = $res->fetch_all(MYSQLI_ASSOC);
             $res->free();
-            foreach ($data as $new){
-                $harga=$new['harga'];
+            foreach ($data as $new) {
+                $harga = $new['harga'];
             }
             return $harga;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getDataTiket($notiket)
+{
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("select DISTINCT tiket.no_rekening, tiket.total_biaya, jadwal.kode_jadwal FROM tiket JOIN detail_jadwal ON tiket.no_tiket=detail_jadwal.no_tiket JOIN jadwal ON jadwal.kode_jadwal=detail_jadwal.kode_jadwal WHERE tiket.no_tiket='$notiket'");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
+        } else
+            return FALSE;
+    } else
+        return FALSE;
+}
+
+function getListJadwal($kodejadwal){
+    $db = dbConnect();
+    if ($db->connect_errno == 0) {
+        $res = $db->query("SELECT jadwal.kode_jadwal, jadwal.tanggal_berangkat, jadwal.jam_berangkat, jadwal.rute, jadwal.armada, supir.id_supir, jadwal.sisa_kursi, jadwal.status 
+                                                                FROM jadwal JOIN supir ON jadwal.supir=supir.id_supir WHERE jadwal.kode_jadwal='$kodejadwal'");
+        if ($res) {
+            $data = $res->fetch_all(MYSQLI_ASSOC);
+            $res->free();
+            return $data;
         } else
             return FALSE;
     } else

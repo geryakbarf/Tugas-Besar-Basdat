@@ -5,6 +5,8 @@ if (!isset($_SESSION["travelku.xyz"]))
     header("Location: login.php");
 $keberangkatan=getKeberangkatan();
 $armada=getJumlahArmada();
+$unpaid=getListTiketBelumBayar();
+$paid=getListTiketUdahBayar();
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,7 +34,7 @@ $armada=getJumlahArmada();
                 <div class="row">
                     <div class="col-md-6 col-xl-3 mb-4">
                         <div class="card shadow border-left-primary py-2">
-                            <a href="jadwal.php?halaman=1">
+                            <a href="jadwal-hari-ini.php?halaman=1">
                             <div class="card-body">
                                 <div class="row align-items-center no-gutters">
                                     <div class="col mr-2">
@@ -51,28 +53,37 @@ $armada=getJumlahArmada();
                     </div>
                     <div class="col-md-6 col-xl-3 mb-4">
                         <div class="card shadow border-left-success py-2">
+                            <a href="tiket-hari-ini.php?halaman=1">
                             <div class="card-body">
                                 <div class="row align-items-center no-gutters">
                                     <div class="col mr-2">
                                         <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span>Tiket dibayar</span>
                                         </div>
-                                        <div class="text-dark font-weight-bold h5 mb-0"><span>35</span></div>
+                                        <div class="text-dark font-weight-bold h5 mb-0"><span><?php
+                                                foreach ($paid as $data){
+                                                    echo $data['jumlah'];
+                                                }?></span></div>
                                     </div>
                                     <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
                                 </div>
                             </div>
+                            </a>
                         </div>
                     </div>
                     <div class="col-md-6 col-xl-3 mb-4">
                         <div class="card shadow border-left-info py-2">
+                            <a href="tiket-hari-ini-unpaid.php?halaman=1">
                             <div class="card-body">
                                 <div class="row align-items-center no-gutters">
                                     <div class="col mr-2">
-                                        <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>tiket belum dibayar</span>
+                                        <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Tiket belum dibayar</span>
                                         </div>
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
-                                                <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span>25</span>
+                                                <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span><?php
+                                                        foreach ($unpaid as $data){
+                                                            echo $data['jumlah'];
+                                                        }?></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -81,6 +92,7 @@ $armada=getJumlahArmada();
                                     </div>
                                 </div>
                             </div>
+                            </a>
                         </div>
                     </div>
                     <div class="col-md-6 col-xl-3 mb-4">

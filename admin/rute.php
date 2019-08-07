@@ -27,12 +27,7 @@ if (!isset($_SESSION["travelku.xyz"]))
                 <h3 class="text-dark mb-4">Data Rute<a href="tambah-rute.php"><button class="btn btn-primary" type="button" style="margin-bottom: 10px;float: right;">Tambah Data</button></a></h3>
                 <div class="card shadow">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col"></div>
-                            <div class="col-md-6">
-                                <div class="text-md-right dataTables_filter" id="dataTable_filter"><label><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search"></label></div>
-                            </div>
-                        </div>
+
                         <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                             <table class="table dataTable my-0" id="dataTable">
                                 <thead>

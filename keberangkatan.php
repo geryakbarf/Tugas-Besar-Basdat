@@ -28,23 +28,7 @@ $datajam = getListJam($_SESSION["tanggal"], $_SESSION["jumtiket"], $_SESSION["ru
 </head>
 
 <body>
-<nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-    <div class="container"><a class="navbar-brand logo" href="#">Dian Holiday</a>
-        <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
-                    class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse"
-             id="navcol-1">
-            <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link" href="index.html">beranda</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="travel.html">Travel</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="gallery.html">galeri</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="about-us.html">tentang kami</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="contact-us.html">hubungi kami</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<?php barAtas(); ?>
 <main class="page">
     <section class="clean-block features">
         <div class="block-heading">
@@ -59,10 +43,16 @@ $datajam = getListJam($_SESSION["tanggal"], $_SESSION["jumtiket"], $_SESSION["ru
                             <div class="field"><select class="form-control" name="jam" id="jam">
                                     <option value="0">Pilih Jam Keberangkatan</option>
                                     <?php $datajam = getListJam($_SESSION['tanggal'], $_SESSION['jumtiket'], $_SESSION['rute']);
+                                    if(!$datajam){
+                                        echo '<script language="javascript">';
+                                        echo 'alert("Maaf, semua kursi sudah penuh, silahkan kembali ke halaman sebelumnya untuk memilih tanggal jadwal yang lain :)")';
+                                        echo '</script>';
+                                    }else{
                                     foreach ($datajam as $data) {
                                         ?>
                                         <option value="<?php echo $data['jam_berangkat']; ?>"><?php echo $data['jam_berangkat']; ?></option>
                                         <?php
+                                    }
                                     }
                                     ?>
                                 </select>
